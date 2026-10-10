@@ -150,7 +150,7 @@ export const testimonial = {
   quote:
     "Their rigour and determination to use AI and ML to solve problems was second to none.",
   name: "Ameet Benegal",
-  role: "Director, HSBC Global Commercial Banking",
+  role: "Director, Continental Resources",
 };
 
 export const packages = [
