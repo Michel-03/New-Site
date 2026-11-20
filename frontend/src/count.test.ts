@@ -18,7 +18,12 @@ describe("stat counter", () => {
     expect(easeOutCubic(0.5)).toBeGreaterThan(0.5);
   });
 
-  it("keeps the four headline figures from the existing site", () => {
-    expect(stats.map((stat) => `${stat.value}${stat.suffix}`)).toEqual(["2019", "6", "5", "24h"]);
+  it("counts down when a result is a reduction", () => {
+    expect(countValue(80, 25, 0)).toBe(80);
+    expect(countValue(80, 25, 1)).toBe(25);
+  });
+
+  it("shows client results instead of company facts", () => {
+    expect(stats.map((stat) => `${stat.prefix}${stat.value}${stat.suffix}`)).toEqual(["80→25 min", "30–40%", "50%"]);
   });
 });

@@ -1,9 +1,10 @@
-import type { CSSProperties } from "react";
+import { lazy, Suspense, type CSSProperties } from "react";
 import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
-import { company, stats } from "../content";
+import { bookingHref, company, stats } from "../content";
 import { CountUp } from "../motion";
-import { PipelineScene } from "./PipelineScene";
 import { Eyebrow, PageContainer } from "./ui";
+
+const PipelineScene = lazy(() => import("./PipelineScene").then((module) => ({ default: module.PipelineScene })));
 
 const enter = (delay: number) => ({
   className: "ba-enter",
@@ -30,13 +31,13 @@ export function Hero() {
           as="h1"
           mt="5"
           mx="auto"
-          maxW="920px"
+          maxW="1000px"
           color="#1c1612"
           fontFamily="Fraunces, Georgia, serif"
           fontWeight="560"
-          fontSize={{ base: "3.1rem", md: "5.35rem" }}
+          fontSize={{ base: "2.5rem", md: "4.4rem" }}
           letterSpacing="-0.035em"
-          lineHeight="0.96"
+          lineHeight="1"
         >
           <Box as="span" display="block" {...enter(820)}>
             {company.headlineLead}
@@ -70,7 +71,9 @@ export function Hero() {
             transition="transform 180ms ease, box-shadow 180ms ease, background 180ms ease"
             _hover={{ bg: "#9a3b16", transform: "translateY(-2px)", boxShadow: "0 16px 30px rgba(154,59,22,0.28)" }}
           >
-            <a href="#contact">Schedule a consultation</a>
+            <a href={bookingHref()} target={bookingHref().startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+              Book a 30-min call
+            </a>
           </Button>
           <Button
             asChild
@@ -85,7 +88,7 @@ export function Hero() {
             transition="transform 180ms ease, background 180ms ease"
             _hover={{ bg: "white", transform: "translateY(-2px)" }}
           >
-            <a href="#services">Explore our services</a>
+            <a href="#case-studies">See client results</a>
           </Button>
         </Flex>
       </PageContainer>
@@ -98,11 +101,13 @@ export function Hero() {
             WebkitMaskImage: "linear-gradient(to bottom, transparent, #000 4%, #000 86%, transparent)",
           }}
         >
-          <PipelineScene />
+          <Suspense fallback={null}>
+            <PipelineScene />
+          </Suspense>
         </Box>
         <PageContainer position="relative" mt={{ base: "0", md: "-16" }} pb={{ base: "10", md: "14" }}>
           <Grid
-            templateColumns={{ base: "1fr 1fr", md: "repeat(4, 1fr)" }}
+            templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
             bg="rgba(255,252,249,0.86)"
             borderWidth="1px"
             borderColor="rgba(28,22,18,0.08)"
@@ -117,8 +122,8 @@ export function Hero() {
                 px={{ base: "5", md: "7" }}
                 py="6"
                 textAlign="left"
-                borderLeftWidth={{ base: index % 2 === 0 ? "0" : "1px", md: index === 0 ? "0" : "1px" }}
-                borderTopWidth={{ base: index > 1 ? "1px" : "0", md: "0" }}
+                borderLeftWidth={{ base: "0", md: index === 0 ? "0" : "1px" }}
+                borderTopWidth={{ base: index > 0 ? "1px" : "0", md: "0" }}
                 borderColor="rgba(28,22,18,0.08)"
               >
                 <Text
@@ -129,7 +134,7 @@ export function Hero() {
                   letterSpacing="-0.03em"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
-                  <CountUp to={stat.value} from={stat.from} suffix={stat.suffix} />
+                  <CountUp to={stat.value} from={stat.from} prefix={stat.prefix} suffix={stat.suffix} />
                 </Text>
                 <Text m="0" mt="1" color="#5e564f" fontSize="xs" fontWeight="700" letterSpacing="0.12em" textTransform="uppercase">
                   {stat.label}
@@ -138,8 +143,26 @@ export function Hero() {
             ))}
           </Grid>
           <Text mt="5" mb="0" textAlign="center" color="#6d645c" fontSize="sm" fontWeight="600" letterSpacing="0.04em">
-            Technology partners · {company.platforms.join("  ·  ")}
+            Experience with · {company.experience.join("  ·  ")}
           </Text>
+          <Flex mt="3" justify="center" gap="2" wrap="wrap" aria-label="Industries">
+            {company.industries.map((industry) => (
+              <Text
+                key={industry}
+                m="0"
+                px="3"
+                py="1"
+                bg="rgba(47,107,79,0.08)"
+                color="#2f6b4f"
+                borderRadius="full"
+                fontSize="xs"
+                fontWeight="700"
+                letterSpacing="0.04em"
+              >
+                {industry}
+              </Text>
+            ))}
+          </Flex>
         </PageContainer>
       </Box>
     </Box>

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { Box, Button, Field, Grid, Input, NativeSelect, Stack, Textarea } from "@chakra-ui/react";
-import { packages } from "../content";
+import { Box, Button, Field, Grid, Input, Link, NativeSelect, Stack, Text, Textarea } from "@chakra-ui/react";
+import { bookingHref, contact, packages } from "../content";
 import { emptyInquiry, inquiryErrors, submitInquiry, type InquiryDraft } from "../inquiry";
 import { Reveal } from "../motion";
 import { toaster } from "../toaster";
@@ -56,21 +56,90 @@ export function ContactSection({ packageInterest, onPackageChange }: ContactSect
   }
 
   return (
-    <Box as="section" id="contact" bg="white" py={{ base: "16", md: "24" }}>
+    <Box as="section" id="contact" bg="#f6f4f0" py={{ base: "16", md: "24" }}>
       <PageContainer>
         <Grid templateColumns={{ base: "1fr", lg: "0.85fr 1.15fr" }} gap={{ base: "8", lg: "16" }}>
-          <SectionIntro
-            eyebrow="Contact"
-            title="Discuss your requirements with our team."
-            body="Share a few details about your organisation and objectives. A senior consultant will respond within 24 hours."
-          />
+          <Box alignSelf="start">
+            <SectionIntro
+              eyebrow="Contact"
+              title="Discuss your requirements with our team."
+              body="Book a 30-minute call, or share a few details and a senior consultant will reply within 24 hours."
+            />
+            <Reveal delay={80} style={{ height: "auto" }}>
+              <Button
+                asChild
+                h="50px"
+                px="7"
+                bg="#9a3b16"
+                color="white"
+                borderRadius="full"
+                fontWeight="700"
+                _hover={{ bg: "#7d2f10" }}
+              >
+                <a href={bookingHref()} target={contact.bookingUrl ? "_blank" : undefined} rel="noreferrer">
+                  Book a 30-min call
+                </a>
+              </Button>
+              <Stack as="dl" mt="8" gap="4" fontSize="sm">
+                <Box>
+                  <Text as="dt" m="0" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                    Email
+                  </Text>
+                  <Text as="dd" m="0" mt="1">
+                    <Link href={`mailto:${contact.email}`} color="#1c1612" fontWeight="700">
+                      {contact.email}
+                    </Link>
+                  </Text>
+                </Box>
+                {contact.phone ? (
+                  <Box>
+                    <Text as="dt" m="0" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                      Phone
+                    </Text>
+                    <Text as="dd" m="0" mt="1">
+                      <Link href={`tel:${contact.phone.replace(/\s/g, "")}`} color="#1c1612" fontWeight="700">
+                        {contact.phone}
+                      </Link>
+                    </Text>
+                  </Box>
+                ) : null}
+                <Box>
+                  <Text as="dt" m="0" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                    Our address
+                  </Text>
+                  <Text as="dd" m="0" mt="1" color="#1c1612" fontWeight="700">
+                    {contact.legalName}
+                  </Text>
+                  <Text as="dd" m="0" mt="1" color="#3f3833" lineHeight="1.6">
+                    {contact.address.lines.map((line) => (
+                      <span key={line} style={{ display: "block" }}>
+                        {line}
+                      </span>
+                    ))}
+                  </Text>
+                </Box>
+                {contact.linkedin ? (
+                  <Box>
+                    <Text as="dt" m="0" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                      LinkedIn
+                    </Text>
+                    <Text as="dd" m="0" mt="1">
+                      <Link href={contact.linkedin} target="_blank" rel="noreferrer" color="#1c1612" fontWeight="700">
+                        Byte Analytics on LinkedIn
+                      </Link>
+                    </Text>
+                  </Box>
+                ) : null}
+              </Stack>
+            </Reveal>
+          </Box>
 
           <Reveal delay={120}>
           <Box
             as="form"
             onSubmit={onSubmit}
             p={{ base: "5", md: "8" }}
-            bg="#f6f4f0"
+            bg="white"
             borderRadius="22px"
             borderWidth="1px"
             borderColor="rgba(28,22,18,0.08)"

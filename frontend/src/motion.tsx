@@ -59,11 +59,12 @@ export function Reveal({ children, delay = 0, distance = 28, style }: RevealProp
 type CountUpProps = {
   to: number;
   from?: number;
+  prefix?: string;
   suffix?: string;
   duration?: number;
 };
 
-export function CountUp({ to, from = 0, suffix = "", duration = 1800 }: CountUpProps) {
+export function CountUp({ to, from = 0, prefix = "", suffix = "", duration = 1800 }: CountUpProps) {
   const { ref, inView } = useInView<HTMLSpanElement>({ threshold: 0.6, rootMargin: "0px" });
   const [value, setValue] = useState(from);
 
@@ -81,8 +82,9 @@ export function CountUp({ to, from = 0, suffix = "", duration = 1800 }: CountUpP
   }, [inView, from, to, duration]);
 
   return (
-    <span ref={ref} aria-label={`${to}${suffix}`}>
+    <span ref={ref} aria-label={`${prefix}${to}${suffix}`}>
       <span aria-hidden="true">
+        {prefix}
         {value}
         {suffix}
       </span>

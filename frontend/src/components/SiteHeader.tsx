@@ -41,7 +41,7 @@ export function SiteHeader() {
             </Box>
           </Link>
 
-          <Flex as="nav" display={{ base: "none", lg: "flex" }} gap="7" aria-label="Primary">
+          <Flex as="nav" display={{ base: "none", xl: "flex" }} gap="6" aria-label="Primary">
             {nav.map((item) => (
               <Link
                 key={item.id}
@@ -72,7 +72,7 @@ export function SiteHeader() {
               <a href="#contact">Get in touch</a>
             </Button>
             <Button
-              display={{ base: "inline-flex", lg: "none" }}
+              display={{ base: "inline-flex", xl: "none" }}
               variant="outline"
               h="42px"
               px="4"
@@ -92,7 +92,7 @@ export function SiteHeader() {
           <Stack
             id="mobile-nav"
             as="nav"
-            display={{ base: "flex", lg: "none" }}
+            display={{ base: "flex", xl: "none" }}
             direction="column"
             align="stretch"
             gap="1"

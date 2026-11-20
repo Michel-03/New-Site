@@ -32,6 +32,20 @@ Copy `.env.example` if you want to change ports:
 
 Copy `.env.example` to `.env`. For Gmail, turn on 2-Step Verification, create an app password, and put that value in `SMTP_PASS`. Restart `npm run dev` after saving `.env`. The form cannot send until `SMTP_PASS` is set.
 
+On the live site (Vercel), add the same `SMTP_*` and `INQUIRY_TO` values as environment variables on the backend service, then redeploy. `GET /api/health` returns `{"status":"ok"}` when the API is reachable.
+
+## Editing site content
+
+All page text and company facts live in `frontend/src/content.ts`:
+
+- `contact` — email, phone, offices, LinkedIn and the 30-minute booking link. Empty values are hidden.
+- `testimonial.name` — leave empty unless the client has given written permission to be named.
+- `about.team` — founders' names, roles, background and photos (put photos in `frontend/public/team/`).
+- `packages[].price` — for example `From £X / month`. When empty, the site shows "Fixed-price proposal on request".
+- `caseStudies` and `stats` — client results. Keep only figures you can back up.
+
+The build also writes a plain-HTML copy of this content into `index.html` so search engines can read it.
+
 ## Tests
 
 ```powershell

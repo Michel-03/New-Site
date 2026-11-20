@@ -1,8 +1,10 @@
+import { lazy, Suspense } from "react";
 import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
-import { cortex, packages, platform, services, steps, testimonial } from "../content";
+import { about, accelerators, caseStudies, packages, privateAi, services, steps, testimonial } from "../content";
 import { Reveal, useInView } from "../motion";
-import { CoreScene } from "./CoreScene";
 import { PageContainer, SectionIntro, TiltCard } from "./ui";
+
+const CoreScene = lazy(() => import("./CoreScene").then((module) => ({ default: module.CoreScene })));
 
 const cardBorder = "rgba(28,22,18,0.09)";
 const cardShadow = "0 1px 2px rgba(28,22,18,0.04)";
@@ -18,8 +20,8 @@ export function Services() {
       <PageContainer>
         <SectionIntro
           eyebrow="Our services"
-          title="Enterprise AI and data services, delivered end to end."
-          body="Six practices under one team. We design the models, the data platforms, and the integrations that connect them to your business."
+          title="From raw data to AI in production."
+          body="Our services follow the same path your data does: engineered pipelines, a governed lakehouse, production ML, then AI built on top."
         />
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", xl: "1fr 1fr 1fr" }} gap="5" style={{ perspective: "1400px" }}>
           {services.map((service, index) => (
@@ -77,13 +79,79 @@ export function Services() {
   );
 }
 
-export function Platform() {
+export function CaseStudies() {
   return (
-    <Box as="section" id="platform" bg="#f6f4f0" py={{ base: "16", md: "28" }} overflow="hidden">
+    <Box as="section" id="case-studies" bg="#f6f4f0" py={{ base: "16", md: "28" }}>
+      <PageContainer>
+        <SectionIntro
+          eyebrow="Case studies"
+          title="Measured results from production systems."
+          body="Client names are withheld at their request. Each project is described by the problem, what we built, and the result."
+        />
+        <Grid templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)" }} gap="5" style={{ perspective: "1400px" }}>
+          {caseStudies.map((study, index) => (
+            <Reveal key={study.title} delay={index * 120}>
+              <TiltCard strength={0.6}>
+                <Flex
+                  as="article"
+                  direction="column"
+                  h="100%"
+                  p="7"
+                  bg="white"
+                  borderWidth="1px"
+                  borderColor={cardBorder}
+                  borderRadius="20px"
+                  boxShadow={cardShadow}
+                  transition="box-shadow 220ms ease"
+                  _hover={{ boxShadow: cardHoverShadow }}
+                >
+                  <Text m="0" color="#2f6b4f" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                    {study.client}
+                  </Text>
+                  <Text m="0" mt="4" color="#c65a2e" fontFamily="Fraunces, Georgia, serif" fontSize="3xl" letterSpacing="-0.02em" lineHeight="1.1">
+                    {study.result}
+                  </Text>
+                  <Heading as="h3" mt="3" mb="0" fontSize="lg" fontFamily="Fraunces, Georgia, serif" fontWeight="560" lineHeight="1.3">
+                    {study.title}
+                  </Heading>
+                  <Box as="dl" m="0" mt="5" fontSize="sm" lineHeight="1.65" color="#5e564f">
+                    <Text as="dt" m="0" fontWeight="700" color="#1c1612">
+                      Problem
+                    </Text>
+                    <Text as="dd" m="0" mb="3">
+                      {study.problem}
+                    </Text>
+                    <Text as="dt" m="0" fontWeight="700" color="#1c1612">
+                      What we built
+                    </Text>
+                    <Text as="dd" m="0">
+                      {study.built}
+                    </Text>
+                  </Box>
+                  <Flex mt="auto" pt="6" gap="2" wrap="wrap">
+                    {study.tech.map((tech) => (
+                      <Text key={tech} m="0" px="2.5" py="1" bg="#f6f4f0" borderRadius="full" color="#3f3833" fontSize="xs" fontWeight="700">
+                        {tech}
+                      </Text>
+                    ))}
+                  </Flex>
+                </Flex>
+              </TiltCard>
+            </Reveal>
+          ))}
+        </Grid>
+      </PageContainer>
+    </Box>
+  );
+}
+
+export function PrivateAi() {
+  return (
+    <Box as="section" id="private-ai" bg="white" py={{ base: "16", md: "28" }} overflow="hidden">
       <PageContainer>
         <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={{ base: "10", lg: "16" }} alignItems="center">
           <Box>
-            <SectionIntro eyebrow={platform.kicker} title={platform.title} body={platform.body} />
+            <SectionIntro eyebrow={privateAi.kicker} title={privateAi.title} body={privateAi.body} />
             <Reveal delay={120}>
               <Box
                 position="relative"
@@ -94,7 +162,9 @@ export function Platform() {
                 bg="radial-gradient(circle at 50% 45%, rgba(243,221,210,0.9), rgba(246,244,240,0.2) 70%)"
                 overflow="hidden"
               >
-                <CoreScene />
+                <Suspense fallback={null}>
+                  <CoreScene />
+                </Suspense>
                 <Text
                   position="absolute"
                   left="5"
@@ -113,13 +183,13 @@ export function Platform() {
             </Reveal>
           </Box>
           <Grid templateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap="4" style={{ perspective: "1400px" }}>
-            {platform.points.map((point, index) => (
+            {privateAi.points.map((point, index) => (
               <Reveal key={point.title} delay={(index % 2) * 100 + Math.floor(index / 2) * 80}>
                 <TiltCard>
                   <Box
                     h="100%"
                     p="6"
-                    bg="white"
+                    bg="#fffcf9"
                     borderWidth="1px"
                     borderColor={cardBorder}
                     borderRadius="16px"
@@ -151,12 +221,12 @@ export function Process() {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.25 });
 
   return (
-    <Box as="section" id="process" bg="white" py={{ base: "16", md: "28" }}>
+    <Box as="section" id="process" bg="#f6f4f0" py={{ base: "16", md: "28" }}>
       <PageContainer>
         <SectionIntro
-          eyebrow="Our approach"
-          title="A structured path from opportunity to production."
-          body="Every engagement follows the same five stages, so you always know what is being delivered and what comes next."
+          eyebrow="How we work"
+          title="A clear path from first conversation to production."
+          body="Five stages with typical durations, so you always know what is being delivered and what comes next. Timings depend on scope."
         />
         <Box ref={ref} position="relative" data-visible={inView ? "true" : "false"}>
           <Box
@@ -185,12 +255,26 @@ export function Process() {
                     placeItems="center"
                     fontFamily="Fraunces, Georgia, serif"
                     fontSize="lg"
-                    boxShadow="0 0 0 6px white, 0 12px 26px rgba(28,22,18,0.2)"
+                    boxShadow="0 0 0 6px #f6f4f0, 0 12px 26px rgba(28,22,18,0.2)"
                   >
                     {step.number}
                   </Box>
                   <TiltCard strength={0.7}>
-                    <Box mt="5" p="5" bg="#fffcf9" borderWidth="1px" borderColor={cardBorder} borderRadius="16px" h="100%">
+                    <Box mt="5" p="5" bg="white" borderWidth="1px" borderColor={cardBorder} borderRadius="16px" h="100%">
+                      <Text
+                        as="span"
+                        display="inline-block"
+                        mb="3"
+                        px="2.5"
+                        py="0.5"
+                        bg="rgba(198,90,46,0.1)"
+                        color="#9a3b16"
+                        borderRadius="full"
+                        fontSize="xs"
+                        fontWeight="700"
+                      >
+                        {step.duration}
+                      </Text>
                       <Heading as="h3" m="0" fontSize="lg" fontFamily="Fraunces, Georgia, serif" fontWeight="560">
                         {step.title}
                       </Heading>
@@ -209,9 +293,9 @@ export function Process() {
   );
 }
 
-export function Cortex() {
+export function Accelerators() {
   return (
-    <Box as="section" id="cortex" bg="#1c1612" color="#fffaf5" py={{ base: "16", md: "28" }} position="relative" overflow="hidden">
+    <Box as="section" id="accelerators" bg="#1c1612" color="#fffaf5" py={{ base: "16", md: "28" }} position="relative" overflow="hidden">
       <Box
         position="absolute"
         inset="0"
@@ -221,9 +305,14 @@ export function Cortex() {
       <PageContainer position="relative">
         <Reveal>
           <Box maxW="720px" mb={{ base: "8", md: "12" }}>
-            <Text m="0" color="#e7a07a" fontSize="xs" fontWeight="700" letterSpacing="0.16em" textTransform="uppercase">
-              Byte Analytics Cortex
-            </Text>
+            <Flex align="center" gap="3" wrap="wrap">
+              <Text m="0" color="#e7a07a" fontSize="xs" fontWeight="700" letterSpacing="0.16em" textTransform="uppercase">
+                AI Accelerators
+              </Text>
+              <Text m="0" px="2.5" py="0.5" borderWidth="1px" borderColor="rgba(231,160,122,0.5)" borderRadius="full" color="#f3d3c0" fontSize="xs" fontWeight="700">
+                {accelerators.status}
+              </Text>
+            </Flex>
             <Heading
               as="h2"
               mt="4"
@@ -234,15 +323,15 @@ export function Cortex() {
               letterSpacing="-0.03em"
               lineHeight="1.04"
             >
-              Pre-built AI components for operational work.
+              Reusable starting points for common AI use cases.
             </Heading>
             <Text mt="4" mb="0" color="rgba(255,250,245,0.72)" lineHeight="1.7">
-              Accelerate delivery by starting from a proven toolbox, then tailor each component to your data, systems, and governance requirements.
+              We are turning patterns from client work into reusable components. They are used inside our engagements and tailored to your data, systems and governance — they are not sold as a standalone product.
             </Text>
           </Box>
         </Reveal>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", xl: "repeat(5, 1fr)" }} gap="4" style={{ perspective: "1400px" }}>
-          {cortex.map((item, index) => (
+          {accelerators.items.map((item, index) => (
             <Reveal key={item.title} delay={index * 100}>
               <TiltCard>
                 <Box
@@ -320,17 +409,14 @@ export function Testimonial() {
               “{testimonial.quote}”
             </Heading>
             <Flex mt="8" align="center" gap="4">
-              <Box w="44px" h="44px" borderRadius="full" bg="#1c1612" color="#fffaf5" display="grid" placeItems="center" fontWeight="700">
-                {testimonial.name
-                  .split(" ")
-                  .map((part) => part[0])
-                  .join("")}
-              </Box>
+              <Box w="44px" h="1px" bg="#c65a2e" />
               <Box>
-                <Text m="0" fontWeight="700">
-                  {testimonial.name}
-                </Text>
-                <Text m="0" color="#5e564f" fontSize="sm">
+                {testimonial.name ? (
+                  <Text m="0" fontWeight="700">
+                    {testimonial.name}
+                  </Text>
+                ) : null}
+                <Text m="0" color={testimonial.name ? "#5e564f" : "#1c1612"} fontWeight={testimonial.name ? "400" : "700"} fontSize="sm">
                   {testimonial.role}
                 </Text>
               </Box>
@@ -342,14 +428,73 @@ export function Testimonial() {
   );
 }
 
+export function About() {
+  return (
+    <Box as="section" id="about" bg="#f6f4f0" py={{ base: "16", md: "28" }}>
+      <PageContainer>
+        <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={{ base: "8", lg: "16" }} alignItems="start">
+          <SectionIntro eyebrow="About us" title={about.title} body={about.body} />
+          <Reveal delay={120}>
+            <Box p={{ base: "6", md: "8" }} bg="white" borderWidth="1px" borderColor={cardBorder} borderRadius="22px" boxShadow={cardShadow}>
+              <Text m="0" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                Certifications
+              </Text>
+              <Flex mt="3" gap="2" wrap="wrap">
+                {about.certifications.map((certification) => (
+                  <Text key={certification} m="0" px="3" py="1.5" bg="#f6f4f0" borderRadius="full" fontSize="sm" fontWeight="700" color="#1c1612">
+                    {certification}
+                  </Text>
+                ))}
+              </Flex>
+              <Text m="0" mt="7" color="#9a3b16" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase">
+                Where we work
+              </Text>
+              <Text m="0" mt="2" color="#3f3833" lineHeight="1.7">
+                Our office is in Hyderabad, India, and we work with clients remotely and on site.
+              </Text>
+            </Box>
+          </Reveal>
+        </Grid>
+
+        {about.team.length > 0 ? (
+          <Grid mt={{ base: "10", md: "14" }} templateColumns={{ base: "1fr", sm: "1fr 1fr", lg: "repeat(3, 1fr)" }} gap="5">
+            {about.team.map((person, index) => (
+              <Reveal key={person.name} delay={index * 110}>
+                <Box as="article" p="6" bg="white" borderWidth="1px" borderColor={cardBorder} borderRadius="20px">
+                  <img
+                    src={person.photo}
+                    alt={person.name}
+                    width={88}
+                    height={88}
+                    style={{ width: 88, height: 88, borderRadius: "50%", objectFit: "cover" }}
+                  />
+                  <Heading as="h3" mt="4" mb="0" fontSize="lg" fontFamily="Fraunces, Georgia, serif" fontWeight="560">
+                    {person.name}
+                  </Heading>
+                  <Text m="0" color="#9a3b16" fontSize="sm" fontWeight="700">
+                    {person.role}
+                  </Text>
+                  <Text mt="3" mb="0" color="#5e564f" fontSize="sm" lineHeight="1.65">
+                    {person.background}
+                  </Text>
+                </Box>
+              </Reveal>
+            ))}
+          </Grid>
+        ) : null}
+      </PageContainer>
+    </Box>
+  );
+}
+
 export function Packages({ onSelect }: { onSelect: (name: string) => void }) {
   return (
-    <Box as="section" id="packages" bg="#f6f4f0" py={{ base: "16", md: "28" }}>
+    <Box as="section" id="packages" bg="white" py={{ base: "16", md: "28" }}>
       <PageContainer>
         <SectionIntro
           eyebrow="Engagement models"
           title="Choose the engagement that fits your stage."
-          body="Each engagement includes a dedicated team and a monthly allocation of AI support hours."
+          body="Each package delivers something different: a roadmap, one use case in production, or a platform with several use cases. Every package comes with a dedicated team and a monthly allocation of delivery hours."
         />
         <Grid templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)" }} gap="5" alignItems="stretch" style={{ perspective: "1600px" }}>
           {packages.map((item, index) => (
@@ -387,19 +532,30 @@ export function Packages({ onSelect }: { onSelect: (name: string) => void }) {
                     {item.audience}
                   </Text>
                   <Text mt="6" mb="2" fontSize="xs" fontWeight="700" letterSpacing="0.12em" textTransform="uppercase" color={item.featured ? "#e7a07a" : "#9a3b16"}>
-                    Dedicated team
+                    What you get
                   </Text>
-                  <Box as="ul" m="0" pl="4" color={item.featured ? "#f6f4f0" : "#3f3833"} fontSize="sm" lineHeight="1.9">
-                    {item.team.map((member) => (
-                      <li key={member}>{member}</li>
+                  <Box as="ul" m="0" pl="4" color={item.featured ? "#f6f4f0" : "#3f3833"} fontSize="sm" lineHeight="1.75">
+                    {item.deliverables.map((deliverable) => (
+                      <Box as="li" key={deliverable} mb="1.5">
+                        {deliverable}
+                      </Box>
                     ))}
                   </Box>
+                  <Text mt="5" mb="1" fontSize="xs" fontWeight="700" letterSpacing="0.12em" textTransform="uppercase" color={item.featured ? "#e7a07a" : "#9a3b16"}>
+                    Team
+                  </Text>
+                  <Text m="0" color={item.featured ? "#f6f4f0" : "#3f3833"} fontSize="sm" lineHeight="1.6">
+                    {item.team.join(" · ")}
+                  </Text>
                   <Box mt="auto" pt="7">
                     <Text m="0" fontSize="xs" fontWeight="700" letterSpacing="0.12em" textTransform="uppercase" color={item.featured ? "#e7a07a" : "#5e564f"}>
-                      AI support hours per month
+                      Delivery hours per month
                     </Text>
                     <Text m="0" mt="1" fontFamily="Fraunces, Georgia, serif" fontSize="3xl">
                       {item.hours}
+                    </Text>
+                    <Text m="0" mt="1" color={item.featured ? "#f0e6df" : "#5e564f"} fontSize="sm" fontWeight="600">
+                      {item.price || "Fixed-price proposal on request"}
                     </Text>
                     <Button
                       mt="5"

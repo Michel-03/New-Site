@@ -1,12 +1,21 @@
 import { Box, Grid, Link, Text } from "@chakra-ui/react";
-import { nav } from "../content";
+import { contact, nav } from "../content";
 import { Mark, PageContainer } from "./ui";
+
+const columnTitle = {
+  m: "0",
+  fontSize: "xs",
+  fontWeight: "700",
+  letterSpacing: "0.14em",
+  textTransform: "uppercase",
+  color: "#e7a07a",
+} as const;
 
 export function SiteFooter() {
   return (
     <Box as="footer" bg="#1c1612" color="#f6f4f0" py={{ base: "12", md: "16" }}>
       <PageContainer>
-        <Grid templateColumns={{ base: "1fr", md: "1.4fr 1fr" }} gap="10">
+        <Grid templateColumns={{ base: "1fr", md: "1.2fr 1fr" }} gap="10">
           <Box>
             <Box display="flex" alignItems="center" gap="3">
               <Mark light />
@@ -15,14 +24,12 @@ export function SiteFooter() {
               </Text>
             </Box>
             <Text mt="4" mb="0" maxW="420px" color="#d9cfc7" lineHeight="1.7">
-              Artificial intelligence, data platforms, and automation for businesses that want the system to stay theirs.
+              Data engineering, ML engineering and AI for organisations that want systems they own and can run in production.
             </Text>
           </Box>
-          <Grid templateColumns="1fr 1fr" gap="6">
+          <Grid templateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap="6">
             <Box>
-              <Text m="0" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase" color="#e7a07a">
-                Explore
-              </Text>
+              <Text {...columnTitle}>Explore</Text>
               <Box as="ul" m="0" mt="3" p="0" listStyleType="none">
                 {nav.map((item) => (
                   <li key={item.id}>
@@ -34,17 +41,34 @@ export function SiteFooter() {
               </Box>
             </Box>
             <Box>
-              <Text m="0" fontSize="xs" fontWeight="700" letterSpacing="0.14em" textTransform="uppercase" color="#e7a07a">
-                Consultancy
-              </Text>
-              <Text mt="3" mb="0" color="#d9cfc7" lineHeight="1.7">
-                Expert in AI consultancy since 2019. We reply to new enquiries within 24 hours.
-              </Text>
+              <Text {...columnTitle}>Contact</Text>
+              <Box as="ul" m="0" mt="3" p="0" listStyleType="none" color="#d9cfc7" lineHeight="1.9">
+                <li>
+                  <Link href={`mailto:${contact.email}`} color="#f6f4f0" fontSize="sm" whiteSpace="nowrap">
+                    {contact.email}
+                  </Link>
+                </li>
+                {contact.phone ? (
+                  <li>
+                    <Link href={`tel:${contact.phone.replace(/\s/g, "")}`} color="#f6f4f0">
+                      {contact.phone}
+                    </Link>
+                  </li>
+                ) : null}
+                <li>{contact.address.lines.slice(-1)[0]}</li>
+                {contact.linkedin ? (
+                  <li>
+                    <Link href={contact.linkedin} target="_blank" rel="noreferrer" color="#f6f4f0">
+                      LinkedIn
+                    </Link>
+                  </li>
+                ) : null}
+              </Box>
             </Box>
           </Grid>
         </Grid>
         <Text mt="12" mb="0" color="#b7aea6" fontSize="sm">
-          © {new Date().getFullYear()} Byte Analytics. All rights reserved.
+          © {new Date().getFullYear()} {contact.legalName} All rights reserved.
         </Text>
       </PageContainer>
     </Box>

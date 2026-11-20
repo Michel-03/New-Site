@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { ContactSection } from "./components/ContactSection";
 import { Hero } from "./components/Hero";
 import { IntroLoader } from "./components/IntroLoader";
-import { Cortex, Packages, Platform, Process, Services, Testimonial } from "./components/Sections";
+import { About, Accelerators, CaseStudies, Packages, PrivateAi, Process, Services, Testimonial } from "./components/Sections";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 
@@ -17,10 +17,12 @@ export function App() {
       <main>
         <Hero />
         <Services />
-        <Platform />
+        <CaseStudies />
+        <PrivateAi />
         <Process />
-        <Cortex />
+        <Accelerators />
         <Testimonial />
+        <About />
         <Packages onSelect={setPackageInterest} />
         <ContactSection packageInterest={packageInterest} onPackageChange={setPackageInterest} />
       </main>
