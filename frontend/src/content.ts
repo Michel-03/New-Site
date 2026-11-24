@@ -1,10 +1,10 @@
 export const company = {
   name: "Byte Analytics",
-  eyebrow: "Data engineering · ML engineering · AI",
-  headlineLead: "Data platforms, ML systems and AI",
-  headlineAccent: "that run in production.",
+  eyebrow: "AI & data consultancy · Hyderabad · Since 2019",
+  headlineLead: "From raw data to AI",
+  headlineAccent: "in production.",
   summary:
-    "We build the data platforms, machine learning systems and AI products that run in production — on Databricks, AWS and Snowflake. One team takes you from the first pipeline to a monitored model in production.",
+    "We design data platforms, build machine learning systems and deliver AI products on Databricks, AWS and Snowflake. One team, from your first pipeline to a monitored model in production.",
   experience: ["Databricks", "AWS", "Snowflake", "Azure", "Kubernetes", "UiPath", "MuleSoft"],
   industries: ["Energy", "Oil & gas", "Financial services"],
 };
@@ -47,6 +47,13 @@ export const nav = [
   { id: "packages", label: "Packages" },
   { id: "contact", label: "Contact" },
 ] as const;
+
+// The three-step journey shown under the hero buttons.
+export const journey = [
+  { number: "01", tag: "Data", title: "Data platforms", detail: "Pipelines · Lakehouse · Data quality", dark: false },
+  { number: "02", tag: "Model", title: "ML systems", detail: "Training · MLOps · Serving", dark: false },
+  { number: "03", tag: "Production", title: "AI in production", detail: "Monitored · Governed · Scaled", dark: true },
+];
 
 export const stats = [
   { value: 25, from: 80, prefix: "80→", suffix: " min", label: "Production pipeline runtime" },

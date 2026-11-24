@@ -1,11 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { accelerators, bookingHref, caseStudies, company, contact, nav, packages, services, testimonial } from "./content";
+import { accelerators, bookingHref, caseStudies, company, contact, journey, nav, packages, services, testimonial } from "./content";
 import { inquiryErrors } from "./inquiry";
 import { renderOrganizationJsonLd, renderStaticHtml } from "./staticHtml";
 
 describe("site content", () => {
   it("uses Byte Analytics as the company name", () => {
     expect(company.name).toBe("Byte Analytics");
+  });
+
+  it("shows the three-step journey from data to production in the hero", () => {
+    expect(journey.map((step) => step.title)).toEqual(["Data platforms", "ML systems", "AI in production"]);
+    expect(journey.filter((step) => step.dark)).toHaveLength(1);
+  });
+
+  it("uses the Hyderabad office in the hero eyebrow, not London", () => {
+    expect(company.eyebrow).toContain("Hyderabad");
+    expect(company.eyebrow).not.toContain("London");
   });
 
   it("orders services along the data → ML → AI journey", () => {

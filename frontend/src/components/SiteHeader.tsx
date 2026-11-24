@@ -3,6 +3,9 @@ import { Box, Button, Flex, Link, Stack } from "@chakra-ui/react";
 import { nav } from "../content";
 import { Mark, PageContainer } from "./ui";
 
+// "Get in touch" already leads to the contact section, so the bar omits "Contact".
+const headerLinks = nav.filter((item) => item.id !== "contact");
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
@@ -19,7 +22,7 @@ export function SiteHeader() {
       borderColor="rgba(28,22,18,0.08)"
     >
       <PageContainer>
-        <Flex h="76px" align="center" justify="space-between" gap="6">
+        <Flex h="76px" align="center" justify="space-between" gap="4">
           <Link
             href="#top"
             display="inline-flex"
@@ -41,8 +44,8 @@ export function SiteHeader() {
             </Box>
           </Link>
 
-          <Flex as="nav" display={{ base: "none", xl: "flex" }} gap="6" aria-label="Primary">
-            {nav.map((item) => (
+          <Flex as="nav" display={{ base: "none", lg: "flex" }} gap="4" aria-label="Primary" minW="0">
+            {headerLinks.map((item) => (
               <Link
                 key={item.id}
                 href={`#${item.id}`}
@@ -72,7 +75,7 @@ export function SiteHeader() {
               <a href="#contact">Get in touch</a>
             </Button>
             <Button
-              display={{ base: "inline-flex", xl: "none" }}
+              display={{ base: "inline-flex", lg: "none" }}
               variant="outline"
               h="42px"
               px="4"
@@ -92,7 +95,7 @@ export function SiteHeader() {
           <Stack
             id="mobile-nav"
             as="nav"
-            display={{ base: "flex", xl: "none" }}
+            display={{ base: "flex", lg: "none" }}
             direction="column"
             align="stretch"
             gap="1"

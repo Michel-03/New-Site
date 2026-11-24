@@ -1,6 +1,6 @@
-import { lazy, Suspense, type CSSProperties } from "react";
+import { Fragment, lazy, Suspense, type CSSProperties } from "react";
 import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
-import { bookingHref, company, stats } from "../content";
+import { bookingHref, company, journey, stats } from "../content";
 import { CountUp } from "../motion";
 import { Eyebrow, PageContainer } from "./ui";
 
@@ -88,9 +88,84 @@ export function Hero() {
             transition="transform 180ms ease, background 180ms ease"
             _hover={{ bg: "white", transform: "translateY(-2px)" }}
           >
-            <a href="#case-studies">See client results</a>
+            <a href="#case-studies">View case studies</a>
           </Button>
         </Flex>
+
+        <Grid
+          mt="12"
+          mx="auto"
+          maxW="860px"
+          templateColumns={{ base: "1fr", md: "1fr auto 1fr auto 1fr" }}
+          gap={{ base: "3", md: "3" }}
+          alignItems="stretch"
+          {...enter(1380)}
+        >
+          {journey.map((step, index) => (
+            <Fragment key={step.title}>
+              <Box
+                h="100%"
+                textAlign="left"
+                p="5"
+                bg={step.dark ? "#1c1612" : "rgba(255,252,249,0.96)"}
+                color={step.dark ? "#fffaf5" : "#1c1612"}
+                borderWidth="1px"
+                borderColor={step.dark ? "#1c1612" : "rgba(28,22,18,0.08)"}
+                borderRadius="18px"
+                boxShadow={step.dark ? "0 24px 48px rgba(28,22,18,0.22)" : "0 14px 30px rgba(28,22,18,0.06)"}
+              >
+                <Flex align="center" gap="3">
+                  <Box
+                    w="34px"
+                    h="34px"
+                    borderRadius="10px"
+                    bg={step.dark ? "rgba(231,160,122,0.18)" : "rgba(198,90,46,0.1)"}
+                    display="grid"
+                    placeItems="center"
+                  >
+                    <Box w="8px" h="8px" borderRadius="2px" bg={step.dark ? "#e7a07a" : "#c65a2e"} transform="rotate(45deg)" />
+                  </Box>
+                  <Text
+                    m="0"
+                    fontSize="xs"
+                    fontWeight="700"
+                    letterSpacing="0.14em"
+                    textTransform="uppercase"
+                    color={step.dark ? "#e7a07a" : "#9a3b16"}
+                  >
+                    {step.number} · {step.tag}
+                  </Text>
+                </Flex>
+                <Heading as="h3" mt="4" mb="1" fontSize="lg" fontFamily="Fraunces, Georgia, serif" fontWeight="560">
+                  {step.title}
+                </Heading>
+                <Text m="0" color={step.dark ? "rgba(255,250,245,0.7)" : "#5e564f"} fontSize="sm">
+                  {step.detail}
+                </Text>
+              </Box>
+              {index < journey.length - 1 ? (
+                <Box
+                  aria-hidden="true"
+                  display={{ base: "none", md: "block" }}
+                  alignSelf="center"
+                  w="36px"
+                  h="2px"
+                  bg="linear-gradient(90deg, rgba(198,90,46,0.25), #c65a2e)"
+                  position="relative"
+                  _after={{
+                    content: '""',
+                    position: "absolute",
+                    right: "-2px",
+                    top: "-4px",
+                    borderLeft: "6px solid #c65a2e",
+                    borderTop: "5px solid transparent",
+                    borderBottom: "5px solid transparent",
+                  }}
+                />
+              ) : null}
+            </Fragment>
+          ))}
+        </Grid>
       </PageContainer>
 
       <Box mt={{ base: "6", md: "2" }} position="relative" {...enter(1380)}>
