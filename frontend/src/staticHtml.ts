@@ -9,6 +9,7 @@ import {
   services,
   stats,
   steps,
+  privacy,
   testimonial,
 } from "./content";
 
@@ -38,9 +39,11 @@ export function renderStaticHtml(): string {
     `<section><h2>How we work</h2><ol>${steps
       .map((step) => `<li>${escapeHtml(`${step.title} (${step.duration}): ${step.body}`)}</li>`)
       .join("")}</ol></section>`,
-    `<section><h2>AI Accelerators (${escapeHtml(accelerators.status)})</h2>${list(
-      accelerators.items.map((item) => `${item.title}: ${item.body}`),
-    )}</section>`,
+    accelerators.show
+      ? `<section><h2>AI Accelerators (${escapeHtml(accelerators.status)})</h2>${list(
+          accelerators.items.map((item) => `${item.title}: ${item.body}`),
+        )}</section>`
+      : "",
     `<section><blockquote>${escapeHtml(testimonial.quote)}</blockquote><p>${escapeHtml(
       [testimonial.name, testimonial.role].filter(Boolean).join(", "),
     )}</p></section>`,
@@ -55,11 +58,32 @@ export function renderStaticHtml(): string {
   return `<div class="ba-static">${sections.join("")}</div>`;
 }
 
-export function renderOrganizationJsonLd(): string {
+/** Plain HTML version of the privacy notice, written into /privacy at build time. */
+export function renderPrivacyHtml(): string {
+  const sections = privacy.sections
+    .map(
+      (section) =>
+        `<section><h2>${escapeHtml(section.title)}</h2>${section.paragraphs
+          .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+          .join("")}</section>`,
+    )
+    .join("");
+  return `<div class="ba-static"><h1>${escapeHtml(privacy.title)}</h1><p>Last updated ${escapeHtml(privacy.updated)}</p>${sections}</div>`;
+}
+
+/** Plain HTML for 404.html, so unknown addresses show a clear message even without JavaScript. */
+export function renderNotFoundHtml(): string {
+  return `<div class="ba-static"><h1>We could not find that page.</h1><p><a href="/">Back to the home page</a> or email <a href="mailto:${escapeHtml(
+    contact.email,
+  )}">${escapeHtml(contact.email)}</a>.</p></div>`;
+}
+
+export function renderOrganizationJsonLd(siteUrl = ""): string {
   const data = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: company.name,
+    ...(siteUrl ? { url: siteUrl } : {}),
     description: company.summary,
     legalName: contact.legalName,
     email: contact.email,

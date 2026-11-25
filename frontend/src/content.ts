@@ -38,16 +38,6 @@ export function bookingHref(): string {
   return `mailto:${contact.email}?subject=${subject}`;
 }
 
-export const nav = [
-  { id: "services", label: "Services" },
-  { id: "case-studies", label: "Case studies" },
-  { id: "private-ai", label: "Private AI" },
-  { id: "accelerators", label: "AI Accelerators" },
-  { id: "about", label: "About" },
-  { id: "packages", label: "Packages" },
-  { id: "contact", label: "Contact" },
-] as const;
-
 // The three-step journey shown under the hero buttons.
 export const journey = [
   { number: "01", tag: "Data", title: "Data platforms", detail: "Pipelines · Lakehouse · Data quality", dark: false },
@@ -56,7 +46,7 @@ export const journey = [
 ];
 
 export const stats = [
-  { value: 25, from: 80, prefix: "80→", suffix: " min", label: "Production pipeline runtime" },
+  { value: 19, from: 91, prefix: "91→~", suffix: " min", label: "Production pipeline runtime" },
   { value: 40, from: 0, prefix: "30–", suffix: "%", label: "Faster jobs after Hadoop → Databricks" },
   { value: 50, from: 0, prefix: "", suffix: "%", label: "Faster pipeline builds" },
 ];
@@ -94,30 +84,35 @@ export const services = [
   },
 ];
 
+// Publish a case study only if the client contract allows it, even when anonymised.
+// Keep the wording to what was actually done and measured.
 export const caseStudies = [
   {
     client: "US oil & gas operator",
-    title: "Cutting a critical production pipeline from 80 to 25 minutes",
-    problem: "A daily production-data pipeline took 80 minutes, delaying the reports operations teams relied on each morning.",
-    built: "Re-engineered the Spark jobs with incremental loads, better partitioning and Delta Lake optimisation.",
-    result: "80 min → 25 min",
-    tech: ["Databricks", "PySpark", "Delta Lake"],
+    title: "Cutting a critical production pipeline from 91 to about 19 minutes",
+    problem: "A critical data pipeline took 91 minutes to run in production (77 minutes in the test environment).",
+    built: "Removed thousands of small Spark calls, ran independent steps in parallel and cut checks that were not needed.",
+    result: "91 → ~19 min",
+    note: "77 → 16.5 min in the test environment",
+    tech: ["Apache Spark"],
   },
   {
     client: "Enterprise data team",
     title: "Migrating from Hadoop to Databricks",
-    problem: "An on-premises Hadoop estate was slow, costly to run and difficult to scale for new workloads.",
-    built: "Planned and delivered a phased migration to the Databricks lakehouse, validating each workload against the original output.",
+    problem: "Data workloads were running on Hadoop.",
+    built: "Migrated the workloads from Hadoop to Databricks.",
     result: "30–40% faster jobs",
-    tech: ["Databricks", "Spark", "Hadoop"],
+    note: "",
+    tech: ["Databricks", "Hadoop"],
   },
   {
     client: "Data platform team",
-    title: "A reusable framework for building pipelines",
-    problem: "Each new data source needed a hand-built pipeline, so delivery was slow and standards varied between teams.",
-    built: "Introduced a metadata-driven ingestion framework with shared templates, testing and deployment automation.",
+    title: "Building data pipelines faster",
+    problem: "Building new data pipelines took longer than it needed to.",
+    built: "Improved how the team builds data pipelines.",
     result: "50% faster pipeline builds",
-    tech: ["Databricks", "Python", "CI/CD"],
+    note: "",
+    tech: ["Data pipelines"],
   },
 ];
 
@@ -187,6 +182,8 @@ export const steps = [
 ];
 
 export const accelerators = {
+  // Set to false to hide the whole section (and its menu link) until these products exist.
+  show: true,
   status: "In development",
   items: [
     {
@@ -275,3 +272,75 @@ export const packages = [
 ];
 
 export const packageNames = packages.map((item) => item.name);
+
+const navItems = [
+  { id: "services", label: "Services" },
+  { id: "case-studies", label: "Case studies" },
+  { id: "private-ai", label: "Private AI" },
+  { id: "accelerators", label: "AI Accelerators" },
+  { id: "about", label: "About" },
+  { id: "packages", label: "Packages" },
+  { id: "contact", label: "Contact" },
+] as const;
+
+// The menu follows the page: hiding the Accelerators section also removes its link.
+export const nav = navItems.filter((item) => item.id !== "accelerators" || accelerators.show);
+
+// Have this notice reviewed by whoever handles legal matters before launch.
+export const privacy = {
+  title: "Privacy notice",
+  updated: "25 November 2026",
+  sections: [
+    {
+      title: "Who we are",
+      paragraphs: [
+        `${contact.legalName} ("we", "us") runs this website. Our address is ${contact.address.lines.join(", ")}.`,
+        `For any privacy question or request, email ${contact.email}.`,
+      ],
+    },
+    {
+      title: "What we collect",
+      paragraphs: [
+        "When you send us an enquiry through the form, we collect your name, work email address, company (optional), the package you are interested in, and your message. We collect nothing else through the form.",
+        "This site does not use advertising cookies or analytics tools. Our hosting provider keeps routine server logs (for example your IP address and browser type) to keep the site secure and working. The site loads its fonts from Google Fonts, so your browser contacts Google's servers when the page loads.",
+      ],
+    },
+    {
+      title: "Why we use your information",
+      paragraphs: [
+        "We use your details only to reply to your enquiry, arrange calls and prepare proposals. We do not use them for marketing unless you ask us to, and we do not sell them.",
+      ],
+    },
+    {
+      title: "Who receives it",
+      paragraphs: [
+        "Your enquiry is sent by email to our team and handled by our staff. We use hosting and email providers who process it on our behalf. We share it with no one else unless the law requires us to.",
+        "Our team is based in India. If you contact us from outside India, your information will be transferred to and processed in India and by our providers' systems, which may be in other countries.",
+      ],
+    },
+    {
+      title: "How long we keep it",
+      paragraphs: [
+        "We keep your enquiry only for as long as we need it to respond and follow up, and delete it when it is no longer needed. You can ask us to delete it sooner at any time.",
+      ],
+    },
+    {
+      title: "Your rights",
+      paragraphs: [
+        "Under India's Digital Personal Data Protection Act, 2023, you can ask to access or correct your personal data, ask us to erase it, withdraw your consent, and raise a grievance with us.",
+        "If you are in the UK or European Economic Area, you also have the rights set out in the UK GDPR and EU GDPR, including access, correction, erasure, restriction, objection and portability, and the right to complain to your local data protection authority.",
+        `To use any of these rights, or to make a complaint, email ${contact.email}.`,
+      ],
+    },
+    {
+      title: "Security",
+      paragraphs: [
+        "The form is sent over an encrypted connection, and access to enquiries is limited to our team. No method of sending data over the internet is completely secure, so we cannot guarantee absolute security.",
+      ],
+    },
+    {
+      title: "Changes to this notice",
+      paragraphs: ["We will update this page if we change how we handle personal data. The date above shows the latest version."],
+    },
+  ],
+};

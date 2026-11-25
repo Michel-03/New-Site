@@ -111,6 +111,11 @@ export function CaseStudies() {
                   <Text m="0" mt="4" color="#c65a2e" fontFamily="Fraunces, Georgia, serif" fontSize="3xl" letterSpacing="-0.02em" lineHeight="1.1">
                     {study.result}
                   </Text>
+                  {study.note ? (
+                    <Text m="0" mt="1" color="#6d645c" fontSize="xs" fontWeight="600">
+                      {study.note}
+                    </Text>
+                  ) : null}
                   <Heading as="h3" mt="3" mb="0" fontSize="lg" fontFamily="Fraunces, Georgia, serif" fontWeight="560" lineHeight="1.3">
                     {study.title}
                   </Heading>

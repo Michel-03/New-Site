@@ -210,6 +210,21 @@ export function ContactSection({ packageInterest, onPackageChange }: ContactSect
                   />
                 </Field.Root>
 
+                {/* Trap for bots: kept off-screen and out of the tab order, so people never fill it in. */}
+                <Box position="absolute" left="-10000px" top="auto" w="1px" h="1px" overflow="hidden">
+                  <label>
+                    Leave this field empty
+                    <input
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={form.website}
+                      onChange={(event) => update("website", event.target.value)}
+                    />
+                  </label>
+                </Box>
+
                 {errors.length > 0 ? (
                   <Box as="ul" m="0" pl="5" color="#9a3b16" role="alert">
                     {errors.map((error) => (
@@ -232,6 +247,13 @@ export function ContactSection({ packageInterest, onPackageChange }: ContactSect
                 >
                   Send enquiry
                 </Button>
+                <Text m="0" color="#5e564f" fontSize="sm" lineHeight="1.6">
+                  By sending this form you agree that we may use your details to reply to your enquiry, as described in our{" "}
+                  <Link href="/privacy" color="#9a3b16" fontWeight="700" textDecoration="underline">
+                    privacy notice
+                  </Link>
+                  .
+                </Text>
               </Stack>
             </Box>
           </Reveal>

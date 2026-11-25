@@ -19,11 +19,11 @@ describe("stat counter", () => {
   });
 
   it("counts down when a result is a reduction", () => {
-    expect(countValue(80, 25, 0)).toBe(80);
-    expect(countValue(80, 25, 1)).toBe(25);
+    expect(countValue(91, 19, 0)).toBe(91);
+    expect(countValue(91, 19, 1)).toBe(19);
   });
 
   it("shows client results instead of company facts", () => {
-    expect(stats.map((stat) => `${stat.prefix}${stat.value}${stat.suffix}`)).toEqual(["80→25 min", "30–40%", "50%"]);
+    expect(stats.map((stat) => `${stat.prefix}${stat.value}${stat.suffix}`)).toEqual(["91→~19 min", "30–40%", "50%"]);
   });
 });

@@ -1,4 +1,4 @@
-import { Box, Grid, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Link, Text } from "@chakra-ui/react";
 import { contact, nav } from "../content";
 import { Mark, PageContainer } from "./ui";
 
@@ -67,9 +67,14 @@ export function SiteFooter() {
             </Box>
           </Grid>
         </Grid>
-        <Text mt="12" mb="0" color="#b7aea6" fontSize="sm">
-          © {new Date().getFullYear()} {contact.legalName} All rights reserved.
-        </Text>
+        <Flex mt="12" justify="space-between" wrap="wrap" gap="3" color="#b7aea6" fontSize="sm">
+          <Text m="0">
+            © {new Date().getFullYear()} {contact.legalName} All rights reserved.
+          </Text>
+          <Link href="/privacy" color="#f6f4f0">
+            Privacy notice
+          </Link>
+        </Flex>
       </PageContainer>
     </Box>
   );

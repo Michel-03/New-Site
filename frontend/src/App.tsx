@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { ContactSection } from "./components/ContactSection";
+import { accelerators } from "./content";
 import { Hero } from "./components/Hero";
 import { IntroLoader } from "./components/IntroLoader";
 import { About, Accelerators, CaseStudies, Packages, PrivateAi, Process, Services, Testimonial } from "./components/Sections";
@@ -20,7 +21,7 @@ export function App() {
         <CaseStudies />
         <PrivateAi />
         <Process />
-        <Accelerators />
+        {accelerators.show ? <Accelerators /> : null}
         <Testimonial />
         <About />
         <Packages onSelect={setPackageInterest} />

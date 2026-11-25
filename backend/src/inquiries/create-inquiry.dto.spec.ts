@@ -16,6 +16,18 @@ describe("CreateInquiryDto", () => {
     expect(await validate(dto)).toHaveLength(0);
   });
 
+  it("accepts the hidden trap field so the controller can detect bots", async () => {
+    const dto = plainToInstance(CreateInquiryDto, {
+      name: "Jordan Lee",
+      email: "jordan@example.com",
+      packageInterest: "Accelerate",
+      message: "We want help scoping a forecasting use case.",
+      website: "http://spam.example",
+    });
+
+    expect(await validate(dto)).toHaveLength(0);
+  });
+
   it("rejects a short name, a bad email, and an unknown package", async () => {
     const dto = plainToInstance(CreateInquiryDto, {
       name: "A",

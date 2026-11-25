@@ -23,4 +23,10 @@ export class CreateInquiryDto {
   @MinLength(10)
   @MaxLength(2000)
   message!: string;
+
+  // Hidden trap field. People never see it, so any value means the sender was a bot.
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  website?: string;
 }

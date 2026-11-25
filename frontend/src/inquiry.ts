@@ -6,6 +6,8 @@ export type InquiryDraft = {
   company: string;
   packageInterest: string;
   message: string;
+  /** Hidden trap field for bots. Real visitors never see it, so it stays empty. */
+  website: string;
 };
 
 export const emptyInquiry = (): InquiryDraft => ({
@@ -14,6 +16,7 @@ export const emptyInquiry = (): InquiryDraft => ({
   company: "",
   packageInterest: "Accelerate",
   message: "",
+  website: "",
 });
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,6 +56,7 @@ export async function submitInquiry(draft: InquiryDraft): Promise<void> {
       company: draft.company.trim(),
       packageInterest: draft.packageInterest,
       message: draft.message.trim(),
+      website: draft.website,
     }),
   });
 
