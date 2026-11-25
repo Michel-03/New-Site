@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Link, Text } from "@chakra-ui/react";
 import { contact, nav } from "../content";
-import { Mark, PageContainer } from "./ui";
+import { LinkedInIcon, Mark, PageContainer } from "./ui";
 
 const columnTitle = {
   m: "0",
@@ -58,7 +58,17 @@ export function SiteFooter() {
                 <li>{contact.address.lines.slice(-1)[0]}</li>
                 {contact.linkedin ? (
                   <li>
-                    <Link href={contact.linkedin} target="_blank" rel="noreferrer" color="#f6f4f0">
+                    <Link
+                      href={contact.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      color="#f6f4f0"
+                      display="inline-flex"
+                      alignItems="center"
+                      gap="2"
+                      aria-label="Byte Analytics on LinkedIn (opens in a new tab)"
+                    >
+                      <LinkedInIcon size={18} />
                       LinkedIn
                     </Link>
                   </li>

@@ -27,7 +27,7 @@ export const contact = {
     country: "IN",
   },
   locations: ["Hyderabad"],
-  linkedin: "",
+  linkedin: "https://www.linkedin.com/company/byte-analytics-private-limited/",
   // Calendly or Microsoft Bookings link. Without one, the button opens an email request.
   bookingUrl: "",
 };

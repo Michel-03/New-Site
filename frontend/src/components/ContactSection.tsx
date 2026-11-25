@@ -4,7 +4,7 @@ import { bookingHref, contact, packages } from "../content";
 import { emptyInquiry, inquiryErrors, submitInquiry, type InquiryDraft } from "../inquiry";
 import { Reveal } from "../motion";
 import { toaster } from "../toaster";
-import { PageContainer, SectionIntro } from "./ui";
+import { LinkedInIcon, PageContainer, SectionIntro } from "./ui";
 
 type ContactSectionProps = {
   packageInterest: string;
@@ -124,7 +124,17 @@ export function ContactSection({ packageInterest, onPackageChange }: ContactSect
                       LinkedIn
                     </Text>
                     <Text as="dd" m="0" mt="1">
-                      <Link href={contact.linkedin} target="_blank" rel="noreferrer" color="#1c1612" fontWeight="700">
+                      <Link
+                        href={contact.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="#1c1612"
+                        fontWeight="700"
+                        display="inline-flex"
+                        alignItems="center"
+                        gap="2"
+                      >
+                        <LinkedInIcon size={18} />
                         Byte Analytics on LinkedIn
                       </Link>
                     </Text>
